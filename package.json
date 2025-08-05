@@ -1,7 +1,7 @@
 {
   "name": "hotel-ai-backend",
   "version": "1.0.0",
-  "description": "Middleware for hotel AI",
+  "description": "AI voice-to-text middleware for hotel app",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -9,6 +9,6 @@
   "dependencies": {
     "axios": "^1.5.0",
     "express": "^4.18.2",
-    "multer": "^1.4.5"
+    "multer": "1.4.4"  // ← use this version instead
   }
 }
