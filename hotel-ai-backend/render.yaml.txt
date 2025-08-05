@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: hotel-ai-backend
+    env: node
+    buildCommand: "npm install --legacy-peer-deps"
+    startCommand: "npm start"
+    plan: free
