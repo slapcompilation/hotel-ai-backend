@@ -12,13 +12,12 @@ app.post('/ai/transcribe', upload.single('audio'), async (req, res) => {
   try {
     const audioPath = req.file.path;
 
-    // Upload audio file to AssemblyAI
     const uploadRes = await axios.post(
       'https://api.assemblyai.com/v2/upload',
       fs.createReadStream(audioPath),
       {
         headers: {
-          'authorization': process.env.ASSEMBLY_API_KEY,
+          authorization: process.env.ASSEMBLY_API_KEY,
           'transfer-encoding': 'chunked',
         },
       }
@@ -26,7 +25,6 @@ app.post('/ai/transcribe', upload.single('audio'), async (req, res) => {
 
     const audioUrl = uploadRes.data.upload_url;
 
-    // Send transcription request
     const transcriptRes = await axios.post(
       'https://api.assemblyai.com/v2/transcript',
       { audio_url: audioUrl },
@@ -39,7 +37,6 @@ app.post('/ai/transcribe', upload.single('audio'), async (req, res) => {
 
     const transcriptId = transcriptRes.data.id;
 
-    // Poll for completion
     let completed = false;
     let transcriptText = '';
 
@@ -65,7 +62,6 @@ app.post('/ai/transcribe', upload.single('audio'), async (req, res) => {
 
     res.json({ text: transcriptText });
 
-    // Optional: delete temp file
     fs.unlinkSync(audioPath);
   } catch (err) {
     console.error(err);
@@ -73,7 +69,7 @@ app.post('/ai/transcribe', upload.single('audio'), async (req, res) => {
   }
 });
 
-// ✅ IMPORTANT: Bind the correct port for Render!
+// ✅ This is critical for Render to know where to bind
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
